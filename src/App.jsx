@@ -17,68 +17,88 @@ function App(){
           Budget Tracker</h1>
         <button
   onClick={() => setShowModal(true)}
-  className='bg-blue-800 text-white px-4 py-2 rounded hover:bg-fuchsia-100 hover:text-blue-800 my-4'
+  className='bg-blue-800 text-white font-semibold px-4 py-2 rounded hover:bg-fuchsia-100 hover:text-blue-800 my-4'
 >
-  + Add Budget
+  Add Budget
 </button>
 
           {/*other budget summary section*/}
           <div className='bg-fuchsia-100 p-4 justify-center rounded shadow m-4'>
-              <h2 className='text-xl font-sans-semibold'>
+              <h2 className='text-green-600 font-extrabold'>
                 Total Budget: ₹{totalBudget}</h2>
-                <p>Remaining amt: ₹{remainingAmount} | Spent amt: ₹{spentAmount}</p>
+                <p className="font-semibold">Remaining amt: ₹{remainingAmount} | <span className="text-red-600">Spent amt: ₹{spentAmount}</span></p>
           </div>
           {/*Expense list*/}
-          <ul className='space-y-2'>
-                {expenses.map((exp) => (
-                  <li key={exp.id} className='flex justify-between'>
-                    <span>{exp.name}</span>
-                    <span>₹{exp.amount}</span>
-                  </li>))}
-          </ul>
+<div className='bg-fuchsia-100 p-4 rounded shadow m-4'>
+  <h2 className='font-extrabold text-2xl p-2'>Expenses</h2>
+
+  <table className="min-w-full text-left text-sm font-light">
+    <thead className="border-b font-medium bg-gray-100">
+      <tr>
+        <th scope="col" className="px-6 py-4">Name</th>
+        <th scope="col" className="px-6 py-4">Amount (₹)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {expenses.length === 0 ? (
+        <tr>
+          <td colSpan="3" className="px-6 py-4 text-gray-500">No expenses added yet</td>
+        </tr>
+      ) : (
+        expenses.map((exp, index) => (
+          <tr key={exp.id} className="border-b">
+            <td className="px-6 py-4">{exp.name}</td>
+            <td className="px-6 py-4">₹{exp.amount}</td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+</div>
+
 
           {/*expense form*/}
            <div className='bg-gray-100 p-4 m-4 rounded shadow'>
             <h2 className='text-xl font-extrabold'>Add Expense</h2>
             <form
-  onSubmit={(e) => {
-    e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const amount = parseFloat(form.amount.value);
+               onSubmit={(e) => {
+                e.preventDefault();
+                const form = e.target;
+                const name = form.name.value;
+                const amount = parseFloat(form.amount.value);
 
-    if (!name || !amount) return;
+                  if (!name || !amount) return;
 
-    addExpense({ name, amount });
-    form.reset(); // clear form
-  }}
-  className='space-y-2'
->
-  <input
-    name="name"
-    type='text'
-    placeholder='Expense name'
-    className='w-full border rounded p-2'
-    required
-  />
-  <input
-    name="amount"
-    type='number'
-    placeholder='Expense amount'
-    className='w-full border rounded p-2'
-    required
-  />
-  <button
-    type='submit'
-    className='bg-blue-800 text-white p-2 rounded hover:bg-fuchsia-100 hover:text-blue-800'
-  >
-    Add Expense
-  </button>
-</form>
-           </div>
-           <AddBudgetModal show={showModal} handleClose={() => setShowModal(false)} />
-      </div>
-    </div>
+                  addExpense({ name, amount });
+                  form.reset(); // clear form
+                }}
+                className='space-y-2'
+              >
+                <input
+                  name="name"
+                  type='text'
+                  placeholder='Expense name'
+                  className='w-full border rounded p-2'
+                  required
+                />
+                <input
+                  name="amount"
+                  type='number'
+                  placeholder='Expense amount'
+                  className='w-full border rounded p-2'
+                  required
+                />
+                <button
+                  type='submit'
+                  className='bg-blue-800 text-white font-semibold p-2 rounded hover:bg-fuchsia-100 hover:text-blue-800'
+                >
+                  Add Expense
+                </button>
+              </form>
+                        </div>
+                        <AddBudgetModal show={showModal} handleClose={() => setShowModal(false)} />
+                    </div>
+                  </div>
     
   )
 }
